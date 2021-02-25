@@ -1,2 +1,2 @@
 # NR_IES
-Template for our opensi gym environment
+Template for our NR-IES (Nuclear Renewable Integrated Energy System) OpenAiGym environment
