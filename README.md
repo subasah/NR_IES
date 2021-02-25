@@ -1,2 +1,2 @@
 # NR_IES
-Template for our environment
+Template for our opensi gym environment
