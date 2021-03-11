@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-from gym_NR_IES.envs.NE_IES_env import NR_IES_v0
+from NR_IES.envs.NR_IES_env import NR_IES_v0
 from ray.tune.registry import register_env
 import gym
 import os
@@ -38,6 +38,7 @@ def main ():
 
     # train a policy with RLlib using PPO
     for n in range(n_iter):
+        print("From here..")
         result = agent.train()
         chkpt_file = agent.save(chkpt_root)
 
