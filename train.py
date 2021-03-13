@@ -53,30 +53,30 @@ def main ():
 
 
     # test the trained policy
-    policy = agent.get_policy()
-    model = policy.model
-    print(model.base_model.summary())
+    # policy = agent.get_policy()
+    # model = policy.model
+    # print(model.base_model.summary())
 
-    # use the trained policy in a rollout
-    agent.restore(chkpt_file)
-    env = gym.make(select_env)
+    # # use the trained policy in a rollout
+    # agent.restore(chkpt_file)
+    # env = gym.make(select_env)
 
-    state = env.reset()
-    sum_reward = 0
-    n_step = 20
+    # state = env.reset()
+    # sum_reward = 0
+    # n_step = 20
 
-    for step in range(n_step):
-        action = agent.compute_action(state)
-        state, reward, done, info = env.step(action)
-        sum_reward += reward
+    # for step in range(n_step):
+    #     action = agent.compute_action(state)
+    #     state, reward, done, info = env.step(action)
+    #     sum_reward += reward
 
-        env.render()
+    #     # env.render()
 
-        if done == 1:
-            # report at the end of each episode
-            print("cumulative reward", sum_reward)
-            state = env.reset()
-            sum_reward = 0
+    #     if done == 1:
+    #         # report at the end of each episode
+    #         print("cumulative reward", sum_reward)
+    #         state = env.reset()
+    #         sum_reward = 0
 
 
 if __name__ == "__main__":
