@@ -37,7 +37,6 @@ import numpy as np
 # v= (2*z-y)+2
 # w = 2*(z+y)+3.5
 
-
 # print(type(w), type(y), type(v), type(z))
 # exit()
 
@@ -64,18 +63,24 @@ class NR_IES_v0(gym.Env):
         'render.modes': ['human'],    
     }
     def __init__(self):
-        self.h_minprice = 0.0
-        self.h_maxprice = 10.0
-        self.e_minprice = -10.0
-        self.e_maxprice = 20.0
-        self.h_mindemand = 0.0
-        self.h_maxdemand = 4.5
-        self.e_mindemand = 0.0
-        self.e_maxdemand = 5.5
-        self.h_minprodrate = 0.0
-        self.h_maxprodrate = 5.0
-        self.e_minprodrate = 0.0
-        self.e_maxprodrate = 6.0
+        self.h_minprice = 5
+        self.h_maxprice = 100
+
+        self.e_minprice = 15
+        self.e_maxprice = 300
+
+        self.h_mindemand = 20
+        self.h_maxdemand = 400
+
+        self.e_mindemand = 300
+        self.e_maxdemand = 50000
+
+        self.h_minprodrate = 30
+        self.h_maxprodrate = 90
+
+        self.e_minprodrate = 40
+        self.e_maxprodrate = 500
+
         self.episodlenght = 0.0
         
         self.low_state = np.array(
@@ -129,19 +134,22 @@ class NR_IES_v0(gym.Env):
         # plt.scatter(self.episodlenght, h_prodrate)
         # plt.subplot(3,1,3)
         # plt.scatter(self.episodlenght, profit)
-         
         if self.episodlenght >= 99: 
             done = True
             # plt.show()
         else:
             done = False
-        # sample from observation_space and then do this
+
+        #sample from observation_space and then do this
         observation = self.observation_space.sample()
 
         h_price = observation[0]           
         e_price = observation[1]
         h_demand = observation[2]
         e_demand = observation[3]
+
+        # self.state = np.array([self.np_random.uniform(low=-0.6, high=-0.4), 0])
+        # return np.array(self.state)
         
         # h_price = w[self.episodlenght]           
         # e_price = v[self.episodlenght]
