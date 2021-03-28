@@ -2,3 +2,11 @@
 NR-IES/NR_IES/__pycache__/
 NR-IES/NR_IES/envs/__pycache__/
 tmp/NE_IES/*
+
+ddpg_final/*
+ddpg_final_2/*
+env2.0_ddpg_final/*
+env3.0_ddpg_final/*
+env3.0_ppo/*
+hihi.txt
+stnd_env/*

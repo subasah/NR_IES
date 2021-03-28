@@ -3,7 +3,7 @@
 
 import gym
 # import gym_example
-# from NR_IES.envs.NR_IES_env import NR_IES_v0
+from NR_IES.envs.NR_IES_env import NR_IES_v0
 import NR_IES
 import numpy as np
 
@@ -18,7 +18,7 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 
-def run_one_episode (env, verbose=False):
+def run_one_episode(env, verbose=False):
     env.reset()
     sum_reward = 0
 
@@ -48,69 +48,121 @@ def run_one_episode (env, verbose=False):
 
 
 def main ():
-    # first, create the custom environment and run it for one episode
-    env = gym.make("NR_IES-v0")
-    print(env.action_space.sample())
-    print(type(np.array([12.5,  5. ,  2. ,  2.5,  2. ,  2. ])))
 
-    h_price = []
-    e_price = []
-    h_demand = []
-    e_demand = []
+    #first, create the custom environment and run it for one episode
+    env = gym.make("NR_IES-v0")
+
+    # print(env.action_space.sample())
+    # print(env.observation_space.sample())
+    # print(type(np.array([12.5,  5. ,  2. ,  2.5,  2. ,  2. ])))
+
+    #print(type(env.observation_space.sample()))
+    #ValueError: ('Observation ({}) outside given space ({})!', array([12.5,  5. ,  2. ,  2.5,  2. ,  2. ]), Box(-10.0, 20.0, (6,), float32))
+    
+    # print(env.observation_space.contains(np.array([6.0e+08, 5.0e+06, 1.5e-01, 2.0e+00, 5.0e+03, 2.0e+06, 2.5e+01, 5.0e+03, 1.0e+02, 5.0e+01, 2.0e+02])))
+    # print(env.observation_space.contains(np.array([600000000.0,5000000.0,0.15,2.0,5000.0,2000000.0,25.0,5000.0,100.0,50.0,200.0])))
+    # exit()
+    ob = env.observation_space.sample()
+    print(ob[0], ob[1], ob[2], ob[3], ob[4], ob[5], ob[6], ob[7], ob[8], ob[9], ob[10])
+    
+    
+    print(env.observation_space.contains(np.array([519871970.0, 21664430.0, 0.00018702277, 2.1713088, 69221.33, 10828.11, 83.45252, 286424830.0, 385.82718, 78.96604, 133.4819])))
+    exit()
+
+    # array()
+    # observation_space.contains(observation)
+
+    # observation = self.observation_space.sample()
+    # total_T =observation[0]
+    # total_RE =observation[1]
+    
+    # e_price = observation[2]
+    # h_price = observation[3]  
+    # exit()
+    # total_T = []
+    # e_price = []
+    # h_price = []
+    # total_re = []
+    # bes = []
+    # for i in range(100):
+        # observation = env.observation_space.sample()
+        # total_T.append(observation[0])
+        # e_price.append(observation[2])
+        # h_price.append(observation[3])
+        # total_re.append(observation[1])
+        # bes.append(observation[4])
+        # tes_stat.append(observation[5])
+        # hyd_stat.append(observation[6])
+        # epg.append(observation[7])
+        # hprate.append(observation[8])
+        # hpratep.append(observation[9])
+        # hsm.append(observation[10])
+
+    # plt.subplot(5,1,1)
+    # plt.plot(e_price, 'b') 
+    # plt.ylabel('e_price')
+    # plt.subplot(5,1,2)
+    # plt.plot(total_T,'g')  
+    # plt.ylabel('total_T')
+    # plt.subplot(5,1,3)
+    # plt.plot(total_re,'r')
+    # plt.ylabel('total_RE')
+    # plt.subplot(5,1,4)
+    # plt.plot(h_price,'y')
+    # plt.ylabel('h_price')
+    # plt.subplot(5,1,5)
+    # plt.plot(bes,'m')
+    # plt.ylabel('BES') 
+    # plt.xlabel('episode')
+    # plt.show()
+
+
+    tes_stat = []
+    hyd_stat = []
+    epg = []
+    hprate = []
+    hpratep = []
+    hsm = []
 
     for i in range(100):
         observation = env.observation_space.sample()
-        h_price.append(observation[0])
-        e_price.append(observation[1])
-        h_demand.append(observation[2])
-        e_demand.append(observation[3])
+        tes_stat.append(observation[5])
+        hyd_stat.append(observation[6])
+        epg.append(observation[7])
+        hprate.append(observation[8])
+        hpratep.append(observation[9])
+        hsm.append(observation[10])
 
-    plt.subplot(4,1,1)
-    plt.plot(e_price, 'b')  #electricity price
-    plt.ylabel('e_price')
-    plt.subplot(4,1,2)
-    plt.plot(h_price,'g')  #hydrogen price
-    plt.ylabel('h_price')
-    plt.subplot(4,1,3)
-    plt.plot(e_demand,'r')
-    plt.ylabel('e_demand')
-    plt.subplot(4,1,4)
-    plt.plot(h_demand,'y') 
+    plt.subplot(6,1,1)
+    plt.plot(hyd_stat, 'c') 
+    plt.ylabel('hyd_stat')
+    plt.subplot(6,1,2)
+    plt.plot(tes_stat,'k')  
+    plt.ylabel('tes_stat')
+    plt.subplot(6,1,3)
+    plt.plot(hprate,'r')
+    plt.ylabel('hprate')
+    plt.subplot(6,1,4)
+    plt.plot(epg,'g')
+    plt.ylabel('epg')
+    plt.subplot(6,1,5)
+    plt.plot(hpratep,'m')
+    plt.ylabel('hpratep') 
+
+    plt.subplot(6,1,6)
+    plt.plot(hpratep,'y')
+    plt.ylabel('hsm') 
+
     plt.xlabel('episode')
-    plt.ylabel('h_demand')
     plt.show()
 
-
-
-    # h_price = w[self.episodlenght]           
-    # e_price = v[self.episodlenght]
-    # h_demand =y[self.episodlenght] 
-    # e_demand =z[self.episodlenght]
-
-    # plt.subplot(4,1,1)
-    # plt.plot(x, v, 'b')  #electricity price
-    # plt.ylabel('e_price')
-    # plt.subplot(4,1,2)
-    # plt.plot(x, w,'g')  #hydrogen price
-    # plt.ylabel('h_price')
-    # plt.subplot(4,1,3)
-    # plt.plot(x, y,'r')
-    # plt.ylabel('e_demand')
-    # plt.subplot(4,1,4)
-    # plt.plot(x, z,'y') 
-    # plt.xlabel('episode')
-    # plt.ylabel('h_demand')
-    # plt.show()
-    # plt.figure()
-    # plt.scatter(xx, randnums)
-    # plt.show()
 
     # print(type(env.observation_space.sample()))
     #ValueError: ('Observation ({}) outside given space ({})!', array([12.5,  5. ,  2. ,  2.5,  2. ,  2. ]), Box(-10.0, 20.0, (6,), float32))
     # print(env.observation_space.contains(np.array([12.5,  5. ,  2. ,  2.5,  2. ,  2. ])))
-    exit()
 
-    # NR_IES-v0
+
+    #this is what we need here
     sum_reward = run_one_episode(env, verbose=True)
 
     # next, calculate a baseline of rewards based on random actions
