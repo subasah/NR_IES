@@ -11,24 +11,26 @@ import shutil
 def main ():
 	
     # initiate directory and save checkpoints
-    chkpt_root = "env3.0_ddpg_final/NR_IES"
+    chkpt_root = "trnfinal/NR_IES"
     shutil.rmtree(chkpt_root, ignore_errors=True, onerror=None)
     # initialing directory to log the results
     ray_results = "{}/ray_results/".format(os.getenv("HOME"))
     shutil.rmtree(ray_results, ignore_errors=True, onerror=None)
     # starting Ray -- add `local_mode=True` here for debugging
     ray.init(ignore_reinit_error=True)
+    
     # custom environment registration
     select_env = "NR_IES-v0"
     register_env(select_env, lambda config: NR_IES_v0())
     # create agent and environment configuration
-
+    
     config = ppo.DEFAULT_CONFIG.copy()
     config["log_level"] = "WARN"
 
     agent = ppo.DDPGTrainer(config, env=select_env)
     status = "{:2d} reward {:6.2f}/{:6.2f}/{:6.2f} len {:4.2f} saved {}"
     n_iter = 400
+ 
 
     # train a policy with RLlib using PPO
     for n in range(n_iter):
@@ -42,8 +44,7 @@ def main ():
                 result["episode_len_mean"],
                 chkpt_file
                 ))
-
-
+                
     # test the trained policy
     policy = agent.get_policy()
     model = policy.model

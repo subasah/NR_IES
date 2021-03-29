@@ -11,11 +11,11 @@ import shutil
 def main ():
 	
     # initiate directory and save checkpoints
-    chkpt_root = "env3.0_ppo/NR_IES"
+    chkpt_root = "env3.0_ppo3/NR_IES"
     shutil.rmtree(chkpt_root, ignore_errors=True, onerror=None)
     # initialing directory to log the results
-    # ray_results = "{}/ray_results/".format(os.getenv("HOME"))
-    # shutil.rmtree(ray_results, ignore_errors=True, onerror=None)
+    ray_results = "{}/ray_results/".format(os.getenv("HOME"))
+    shutil.rmtree(ray_results, ignore_errors=True, onerror=None)
     # starting Ray -- add `local_mode=True` here for debugging
     ray.init(ignore_reinit_error=True)
     # custom environment registration
@@ -28,7 +28,7 @@ def main ():
 
     agent = ppo.PPOTrainer(config, env=select_env)
     status = "{:2d} reward {:6.2f}/{:6.2f}/{:6.2f} len {:4.2f} saved {}"
-    n_iter = 200
+    n_iter = 450
 
     # train a policy with RLlib using PPO
     for n in range(n_iter):
