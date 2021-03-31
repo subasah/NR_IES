@@ -11,7 +11,7 @@ import shutil
 def main ():
 	
     # initiate directory and save checkpoints
-    chkpt_root = "trnfinal/NR_IES"
+    chkpt_root = "binaka_env/NR_IES"
     shutil.rmtree(chkpt_root, ignore_errors=True, onerror=None)
     # initialing directory to log the results
     ray_results = "{}/ray_results/".format(os.getenv("HOME"))
@@ -29,7 +29,7 @@ def main ():
 
     agent = ppo.DDPGTrainer(config, env=select_env)
     status = "{:2d} reward {:6.2f}/{:6.2f}/{:6.2f} len {:4.2f} saved {}"
-    n_iter = 400
+    n_iter = 200
  
 
     # train a policy with RLlib using PPO

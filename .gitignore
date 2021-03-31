@@ -13,4 +13,5 @@ stnd_env/*
 env3.0_ppo2/
 env3.0_ppo3/
 trnfinal/
-
+bin_ppo3/*
+dog_breeds.txt

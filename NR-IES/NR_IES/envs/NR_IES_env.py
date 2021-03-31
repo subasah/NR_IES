@@ -21,66 +21,71 @@ class NR_IES_v0(gym.Env):
     }
     def __init__(self):
 
-        # self.total_t_min = 500000000 
-        # self.total_t_max = 700000000
-        # self.total_re_min = 10000000 
-        # self.total_re_max= 100000000
-        # self.e_price_min = 0.10 
-        # self.e_price_max = 0.20
+        self.total_t_min = 500000000
+        self.total_t_max = 7000000000
+        self.total_re_min = 1000000 
+        self.total_re_max= 1000000000
+        self.e_price_min = 0.10 
+        self.e_price_max = 0.20
 
-        # self.h_price_min = 1.5
-        # self.h_price_max = 4
-        # self.bes_min = 2000
-        # self.bes_max = 100000
-        # self.tes_min = 1000000 
-        # self.tes_max = 5000000
-        # self.hss_min = 10        
-        # self.hss_max = 50
-        # self.power_grid_min = 1000        
-        # self.power_grid_max = 500000000
-        # self.hpr_HTSE_min = 1        
-        # self.hpr_HTSE_max = 400
-        # self.htr_PEM_min = 1        
-        # self.htr_PEM_max = 200
-        # self.h_distributed_min = 1        
-        # self.h_distributed_max = 600
-        
-        self.total_t_min = 0.0
-        self.total_t_max = 70000000000000000
+        self.h_price_min = 1.5
+        self.h_price_max = 4
+        self.bes_min = 2000
+        self.bes_max = 1000000
+        self.tes_min = 10 
+        self.tes_max = 50000000
+        self.hss_min = 10        
+        self.hss_max = 1000
+        self.power_grid_min = 1000        
+        self.power_grid_max = 500000000
+        self.hpr_HTSE_min = 1        
+        self.hpr_HTSE_max = 4000
+        self.htr_PEM_min = 1        
+        self.htr_PEM_max = 2000
+        self.h_distributed_min = 1        
+        self.h_distributed_max = 6000
 
-        self.total_re_min = 0.0 
-        self.total_re_max= 100000000000000000000
 
-        self.e_price_min = 0.0
-        self.e_price_max = 0.000200000000000000000
+        # self.total_t_min = 0.0
+        # self.total_t_max = 70000000000000000
 
-        self.h_price_min = 0.0
-        self.h_price_max = 4000000000000000
+        # self.total_re_min = 0.0 
+        # self.total_re_max= 100000000000000000000
 
-        self.bes_min = 0.0
-        self.bes_max = 100000000000000
+        # self.e_price_min = 0.0
+        # self.e_price_max = 0.000200000000000000000
 
-        self.tes_min = 0.0      
-        self.tes_max = 5000000000000000
+        # self.h_price_min = 0.0
+        # self.h_price_max = 4000000000000000
 
-        self.hss_min = 0.0        
-        self.hss_max = 1000000000000000
+        # self.bes_min = 0.0
+        # self.bes_max = 100000000000000
 
-        self.power_grid_min = 0.0        
-        self.power_grid_max = 5000000000000000
+        # self.tes_min = 0.0      
+        # self.tes_max = 5000000000000000
 
-        self.hpr_HTSE_min = 0.0        
-        self.hpr_HTSE_max = 4000000000000000
+        # self.hss_min = 0.0        
+        # self.hss_max = 1000000000000000
 
-        self.htr_PEM_min = 0.0       
-        self.htr_PEM_max = 20000000000000000000
+        # self.power_grid_min = 0.0        
+        # self.power_grid_max = 5000000000000000
 
-        self.h_distributed_min = 0.0        
-        self.h_distributed_max = 5000000000000
+        # self.hpr_HTSE_min = 0.0        
+        # self.hpr_HTSE_max = 4000000000000000
+
+        # self.htr_PEM_min = 0.0       
+        # self.htr_PEM_max = 20000000000000000000
+
+        # self.h_distributed_min = 0.0        
+        # self.h_distributed_max = 5000000000000
 
         self.reward = 0 
 
         self.episodlenght = 0
+
+        self.eprofit_data = []
+        self.hprofit_data = []
+        self.tprofit = []
         
         self.low_state = np.array(
             [self.total_t_min, self.total_re_min, self.e_price_min, self.h_price_min, 
@@ -109,7 +114,7 @@ class NR_IES_v0(gym.Env):
             [8000, 50000, 1000, 5000, 1 ], dtype=np.float32)
         
         self.high_action = np.array(
-            [40000, 800000, 100000, 500000, 200], dtype=np.float32)
+            [40000, 800000, 100000, 500000, 50], dtype=np.float32)
 
         self.action_space = spaces.Box(
             low=self.low_action,
@@ -121,7 +126,7 @@ class NR_IES_v0(gym.Env):
             low=self.low_state,
             high=self.high_state,
             shape=(11,),
-            dtype=np.float32
+            dtype=np.float64
         )
         self.seed()       
         self.epen=0
@@ -143,7 +148,7 @@ class NR_IES_v0(gym.Env):
         power_grid = self.state[7]
         hpr_HTSE = self.state[8]
         htr_PEM = self.state[9]
-        h_distributed = self.state[10]
+        h_distributed = self.state[9]
                 
         t_htse = action[0]        
         t_stg = action[1]  
@@ -188,46 +193,33 @@ class NR_IES_v0(gym.Env):
             total_h -= h_stg
             hss += h_stg
         
-       
         cost = 10
         # Calculate reward
-        profit = ((elec*e_price) + (total_h*h_price)) - cost 
-
-        if profit >= 80000000:
+        profit_e = elec*e_price 
+        profit_h =  total_h*h_price
+        profit = profit_e + profit_h - cost
+        elec =0
+        total_h=0
+        
+        
+        if profit >= 8000000:
         # if profit >= 8000000000000:
             self.reward += 6.5
             # print("PROFIT")
         else: 
-            # print("Not profit")
             self.reward -= 3
 
         #change reward if storage is deviated 
-        # if bes <= 0.2*100000:
-        #     self.reward -= 1
-        #     print("BES")
-        #     self.epen += 1
 
-        # if tes <= 0.25*50000:
-        #     self.reward -= 1
-        #     print("TES")
-        #     self.tpen += 1
-
-        # if hss <= 0.3*100:
-        #     self.reward -= 1
-        #     print("HSS")
-        #     self.hpen += 1
-
-        #change reward if storage is deviated 
-
-        if bes<= 0.2*100000 or bes>= 0.8*100000:
+        if bes<= 0.2*1000000 or bes>= 0.8*1000000:
             self.reward -= 1.5
             # print("BES")
             # self.epen += 1                        
-        if tes<= 0.25*5000000 or tes >= 0.90*5000000:
+        if tes<= 0.25*50000000 or tes >= 0.90*50000000:
             self.reward -= 1.8
             # print("TES")
             # self.tpen += 1
-        if hss<= 0.3*200 or hss >= 0.90*200:
+        if hss<= 0.3*1000 or hss >= 0.90*1000:
             self.reward -= 2.0
             # print(self.reward)
             # print("HSS")
@@ -239,9 +231,15 @@ class NR_IES_v0(gym.Env):
         # Check if episode is done
         if self.episodlenght >= 99: 
             done = True
+            self.eprofit_data.append(profit_e)
+            self.hprofit_data.append(profit_h)
+            self.hprofit_data.append(profit)
 
         else:
             done = False
+            self.eprofit_data.append(profit_e)
+            self.hprofit_data.append(profit_h)
+            self.hprofit_data.append(profit)
             
         observation = self.observation_space.sample()
         total_T = observation[0]
@@ -264,11 +262,12 @@ class NR_IES_v0(gym.Env):
     def reset(self):
 
         # Reset shower temperature
-        # self.state = [654711200.0, 70891980.0, 0.11293792, 3.965408, 20702.883, 1507198.8, 42.513252, 244234030.0, 60.791195, 133.09085, 308.13058]
-        self.state = [510000010, 11000010, 0.00015191699, 2.0791678, 2100.287, 2054.404, 13.59362, 1100.0, 3.4513, 2.14204, 2.5188]
-
+        # self.state = [510000010, 11000010, 0.00015191699, 2.0791678, 2100.287, 2054.404, 13.59362, 1100.0, 3.4513, 2.14204, 2.5188]
+        self.state = [510000010, 11000010, 0.15191699, 2.0791678, 2100.287, 2054.404, 13.59362, 1100.0, 3.4513, 2.14204, 22.5188]
+# [5.1000001e+08, 1.1000010e+07, 1.5191699e-04, 2.0791678e+00,
+#        2.1002870e+03, 2.0544040e+03, 1.3593620e+01, 1.1000000e+03,
+#        3.4513000e+00, 2.1420400e+00, 2.5188000e+00])
         # Reset shower time
-
         self.epen=0
         self.tpen=0
         self.hpen=0
@@ -276,6 +275,10 @@ class NR_IES_v0(gym.Env):
         self.reward = 0 
         self.episodlenght = 0
         return self.state
+
+    def close(self):
+        with open('dog_breeds.txt', 'a') as reader:
+            print(reader.writelines(str(self.eprofit_data)))
 
 
 # env = NR_IES_v0()
