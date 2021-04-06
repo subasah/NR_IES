@@ -68,12 +68,12 @@ class NR_IES_v0(gym.Env):
         self.e_minprodrate = 0.0
         # self.e_maxprodrate = 6.0
         self.e_maxprodrate = 1500.0
-
+        
         self.episodlenght = 0.0
 
         self.e_prodratedata = []
-        # self.h_prodrate = []
-        # self.profit = []
+        self.h_prodratedata = []
+        self.ehprofit = []
 
         self.low_state = np.array(
             [self.h_minprice, self.e_minprice, self.h_mindemand, self.e_mindemand, self.h_minprodrate, self.e_minprodrate], dtype=np.float32)
@@ -126,14 +126,17 @@ class NR_IES_v0(gym.Env):
             reward = -1 
             # print("NOT PROFIT!")
 
-        if self.episodlenght >= 2: 
+        if self.episodlenght >= 99: 
             done = True
-            # self.e_prodratedata.append(e_prodrate)
+            self.e_prodratedata.append(e_prodrate)
+            self.h_prodratedata.append(h_prodrate)
+            self.ehprofit.append(profit)
+
         else:
             done = False
-            # self.e_prodratedata.append(e_prodrate)
-            # self.h_prodrate.append(h_prodrate)
-            # self.profit.append(profit)
+            self.e_prodratedata.append(e_prodrate)
+            self.h_prodratedata.append(h_prodrate)
+            self.ehprofit.append(profit)
 
         #sample from observation_space and then do this
         observation = self.observation_space.sample()
@@ -169,31 +172,32 @@ class NR_IES_v0(gym.Env):
         self.state = [3, 3, 3, 3, 3, 3]
         # Reset shower time
         self.episodlenght = 0
+
         return self.state
 
-    # def close(self):
-    #     # plt.subplot(1,1,1)
-    #     plt.plot(self.e_prodratedata, 'c') 
-    #     # plt.ylabel('e_profit')
-    #     # plt.subplot(3,1,2)
-    #     # plt.plot(self.hprofitdata,'k')  
-    #     # plt.ylabel('h_profit')
-    #     # plt.subplot(3,1,3)
-    #     # plt.plot(self.profit,'r')
-    #     # plt.ylabel('profit')
-    #     plt.show()
+    def close(self):
+        plt.subplot(3,1,1)
+        plt.plot(self.e_prodratedata, 'c') 
+        plt.ylabel('e_prodrate')
+        plt.subplot(3,1,2)
+        plt.plot(self.h_prodratedata,'k')  
+        plt.ylabel('h_prodrate')
+        plt.subplot(3,1,3)
+        plt.plot(self.ehprofit,'r')
+        plt.ylabel('profit')
+        plt.show()
 
 
-env = NR_IES_v0()
-episodes = 2
-for episode in range(1, episodes+1):
-    state = env.reset()
-    done = False
-    score = 0 
-    while not done:
-        #env.render()
-        action = env.action_space.sample()        
-        n_state, reward, done, info = env.step(action)
-        # print("reward:", reward)
-        score+=reward
-    print('Episode:{} Score:{}'.format(episode, score))
+# env = NR_IES_v0()
+# episodes = 100
+# for episode in range(1, episodes+1):
+#     state = env.reset()
+#     done = False
+#     score = 0 
+#     while not done:
+#         #env.render()
+#         action = env.action_space.sample()        
+#         n_state, reward, done, info = env.step(action)
+#         # print("reward:", reward)
+#         score+=reward
+#     print('Episode:{} Score:{}'.format(episode, score))
