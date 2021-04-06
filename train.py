@@ -11,7 +11,7 @@ import shutil
 def main ():
 	
     # initiate directory and save checkpoints
-    chkpt_root = "binaka_env/NR_IES"
+    chkpt_root = "4_6_11_11_ddpg/NR_IES"
     shutil.rmtree(chkpt_root, ignore_errors=True, onerror=None)
     # initialing directory to log the results
     ray_results = "{}/ray_results/".format(os.getenv("HOME"))

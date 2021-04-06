@@ -7,7 +7,7 @@ import json
 import shutil
 
 def main ():
-
+    
     # initiate directory and save checkpoints
     chkpt_root = "stnd_env/NR_IES"
     shutil.rmtree(chkpt_root, ignore_errors=True, onerror=None)

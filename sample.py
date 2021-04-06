@@ -62,11 +62,17 @@ def main ():
     # print(env.observation_space.contains(np.array([6.0e+08, 5.0e+06, 1.5e-01, 2.0e+00, 5.0e+03, 2.0e+06, 2.5e+01, 5.0e+03, 1.0e+02, 5.0e+01, 2.0e+02])))
     # print(env.observation_space.contains(np.array([600000000.0,5000000.0,0.15,2.0,5000.0,2000000.0,25.0,5000.0,100.0,50.0,200.0])))
     # exit()
-    
+
     ob = env.observation_space.sample()
-    print(ob[0], ob[1], ob[2], ob[3], ob[4], ob[5], ob[6], ob[7], ob[8], ob[9], ob[10])
+    # print(ob[0], ob[1], ob[2], ob[3], ob[4], ob[5], ob[6], ob[7], ob[8], ob[9], ob[10])
     
-    print(env.observation_space.contains(np.array([519871970.0, 21664430.0, 0.00018702277, 2.1713088, 69221.33, 10828.11, 83.45252, 286424830.0, 385.82718, 78.96604, 133.4819])))
+    # print(env.observation_space.contains(np.array([1.3119678e+18, 2.2470617e+21, 2.21158e-05, 6.2709606e+16, 
+    # 2115606100000000.0, 4.1982707e+17, 9.849475e+16, 6.961476e+16, 2.6702684e+18, 
+    # 1.050629e+22, 4394723300000000.0])))
+
+    print(env.observation_space.contains(np.array([5.1000001e+08, 1.1000010e+07, 1.5191699e-01, 2.0791678e+00,
+       2115606100000000.0, 4.1982707e+17, 9.849475e+16, 6.961476e+16,
+       2.6702684e+18, 1.050629e+22, 4394723300000000.0])))
     exit()
 
     # array()
@@ -133,6 +139,17 @@ def main ():
         hpratep.append(observation[9])
         hsm.append(observation[10])
 
+###
+    plt.subplot(3,1,1)
+    plt.plot(hyd_stat, 'c') 
+    plt.ylabel('e_profit')
+    plt.subplot(3,1,2)
+    plt.plot(tes_stat,'k')  
+    plt.ylabel('h_profit')
+    plt.subplot(3,1,3)
+    plt.plot(hprate,'r')
+    plt.ylabel('hprate')
+###
     plt.subplot(6,1,1)
     plt.plot(hyd_stat, 'c') 
     plt.ylabel('hyd_stat')
