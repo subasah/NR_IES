@@ -134,7 +134,7 @@ class CostomIESEnv(gym.Env):
         hpr_HTSE +=h;
         elec -=e
             
-            
+        # C:\Users\Suba\Desktop\NR_IES\NR-IES\
         #action3 Electric power to battery energy storag        
         if bes>=100000:
             elec += e_stg;

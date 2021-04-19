@@ -8,16 +8,18 @@ import os
 import ray
 import ray.rllib.agents.ppo as ppo # here we can use DDPG
 import shutil
+
 def main ():
-	
+    
     # initiate directory and save checkpoints
-    chkpt_root = "v1_4_6_6_9_ppo/NR_IES"
+    chkpt_root = "tmp/NR_IES"
     shutil.rmtree(chkpt_root, ignore_errors=True, onerror=None)
     # initialing directory to log the results
     ray_results = "{}/ray_results/".format(os.getenv("HOME"))
     shutil.rmtree(ray_results, ignore_errors=True, onerror=None)
     # starting Ray -- add `local_mode=True` here for debugging
     ray.init(ignore_reinit_error=True)
+
     # custom environment registration
     select_env = "NR_IES-v0"
     register_env(select_env, lambda config: NR_IES_v0())

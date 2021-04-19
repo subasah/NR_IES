@@ -55,7 +55,8 @@ def main ():
     # print(env.action_space.sample())
     # print(env.observation_space.sample())
     # print(type(np.array([12.5,  5. ,  2. ,  2.5,  2. ,  2. ])))
-
+    # print(type(np.array([6.00469971e+02, 2.12882000e+02, 1.64500000e+01, 4.68168865e-01])))
+    
     #print(type(env.observation_space.sample()))
     #ValueError: ('Observation ({}) outside given space ({})!', array([12.5,  5. ,  2. ,  2.5,  2. ,  2. ]), Box(-10.0, 20.0, (6,), float32))
     
@@ -70,9 +71,7 @@ def main ():
     # 2115606100000000.0, 4.1982707e+17, 9.849475e+16, 6.961476e+16, 2.6702684e+18, 
     # 1.050629e+22, 4394723300000000.0])))
 
-    print(env.observation_space.contains(np.array([5.1000001e+08, 1.1000010e+07, 1.5191699e-01, 2.0791678e+00,
-       2115606100000000.0, 4.1982707e+17, 9.849475e+16, 6.961476e+16,
-       2.6702684e+18, 1.050629e+22, 4394723300000000.0])))
+    print(env.observation_space.contains(np.array([3.35907642e+03, 6.62790000e+01, 1.64618950e+01, 1.00000012e-01])))
     exit()
 
     # array()

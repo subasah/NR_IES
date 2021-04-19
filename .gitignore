@@ -1,4 +1,5 @@
-# Distribution / packaging
+# Distribution/packaging
+v1_4_6_6_9_ppo/*
 NR-IES/NR_IES/__pycache__/
 NR-IES/NR_IES/envs/__pycache__/
 tmp/NE_IES/*
@@ -16,3 +17,4 @@ trnfinal/
 bin_ppo3/*
 dog_breeds.txt
 4_6_11_13_ppo/
+raven/*
